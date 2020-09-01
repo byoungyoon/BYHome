@@ -2,32 +2,25 @@ import java.io.*;
 import java.util.*;
 
 public class hihi{
-    static int Answer;
     public static void main(String[] args) throws IOException{
-        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int T = sc.nextInt();
+        int maxNum = Integer.parseInt(br.readLine());
+        String inputStr = br.readLine();
 
-        for(int i=0;i<T;i++){
-            Answer = 1;
+        StringTokenizer st = new StringTokenizer(inputStr, " ");
+        int[] inputInt = new int[maxNum];
+        for(int i=0; i<inputInt.length; i++) inputInt[i] = Integer.parseInt(st.nextToken());
 
-            int N = Integer.parseInt(sc.next());
-            int K = Integer.parseInt(sc.next());
-            int M = Integer.parseInt(sc.next());
-            sc.nextLine();
-            
-            String st = sc.nextLine();
-            String[] sp = new String[N+1-K];
+        Arrays.sort(inputInt);
 
-            for(int j=0;j<sp.length;j++){
-                sp[i] = Character.toString(st.charAt(j));
-            }
-    
+        int max = inputInt[inputInt.length - 1];
+        int min = inputInt[0];
 
-            System.out.println(sp[2]);
-        }
-
-		//System.out.println("Case #");
-		//System.out.println(Answer);
+        bw.write(min + " " + max + "\n");
+        bw.flush();
+        bw.close();
+        br.close();
     }
 }
