@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ page import = "java.sql.*" %>
+<%@ page import = "java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +31,7 @@
 				"root",
 				"java1004"); // 주소 id 암호
 		
-		String sql = "SELECT * FROM employees ORDER BY emp_no LIMIT 0, 10";
+		String sql = "SELECT emp_no, birth_date, YEAR(birth_date) as age, first_name, last_name, gender, hire_date FROM employees ORDER BY emp_no LIMIT 0, 20";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 	%>
@@ -39,6 +40,7 @@
 			<tr>
 				<th>emp_no</th>
 				<th>birth_date</th>
+				<th>age</th>
 				<th>first_name</th>
 				<th>last_name</th>
 				<th>gender</th>
@@ -48,14 +50,34 @@
 		
 		<tbody>
 			<%
+				int age;
+				int year = Calendar.getInstance().get(Calendar.YEAR);
 				while(rs.next()){
+					//String[] ageStr = rs.getString("birth_date").split("-");
+					age = year - rs.getInt("age") + 1;
+					//age = year - Integer.parseInt(ageStr[0]) + 1;
 				%>
 					<tr>
 						<td><%=rs.getInt("emp_no") %></td>
 						<td><%=rs.getString("birth_date") %></td>
+						<td><%=age%></td>
 						<td><%=rs.getString("first_name") %></td>
 						<td><%=rs.getString("last_name") %></td>
-						<td><%=rs.getString("gender") %></td>
+						<td>
+							<%
+								if(rs.getString("gender").equals("M")){
+								%>
+									남자
+								<% 	
+								}
+								else{
+								%>
+									여자
+								<% 	
+								}
+							%>
+							
+						</td>
 						<td><%=rs.getString("hire_date") %></td>
 					</tr>
 				<%
