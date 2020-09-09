@@ -153,7 +153,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="d0907" path="/d0907" reloadable="true" source="org.eclipse.jst.jee.server:d0907"/><Context docBase="p0907" path="/p0907" reloadable="true" source="org.eclipse.jst.jee.server:p0907"/><Context docBase="emp" path="/emp" reloadable="true" source="org.eclipse.jst.jee.server:emp"/><Context docBase="p0908" path="/p0908" reloadable="true" source="org.eclipse.jst.jee.server:p0908"/><Context docBase="enployees" path="/enployees" reloadable="true" source="org.eclipse.jst.jee.server:enployees"/></Host>
+      <Context docBase="d0907" path="/d0907" reloadable="true" source="org.eclipse.jst.jee.server:d0907"/><Context docBase="p0907" path="/p0907" reloadable="true" source="org.eclipse.jst.jee.server:p0907"/><Context docBase="emp" path="/emp" reloadable="true" source="org.eclipse.jst.jee.server:emp"/><Context docBase="p0908" path="/p0908" reloadable="true" source="org.eclipse.jst.jee.server:p0908"/><Context docBase="enployees" path="/enployees" reloadable="true" source="org.eclipse.jst.jee.server:enployees"/><Context docBase="p0909" path="/p0909" reloadable="true" source="org.eclipse.jst.jee.server:p0909"/><Context docBase="gugudan" path="/gugudan" reloadable="true" source="org.eclipse.jst.jee.server:gugudan"/><Context docBase="goodee" path="/goodee" reloadable="true" source="org.eclipse.jst.jee.server:goodee"/></Host>
     </Engine>
   </Service>
 </Server>
