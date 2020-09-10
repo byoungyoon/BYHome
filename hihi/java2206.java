@@ -2,70 +2,87 @@ import java.io.*;
 import java.util.*;
 
 public class java2206{
+    static class Place{
+        int y;
+        int x;
+        int dis;
+        int drill;
+
+        public Place(int y, int x, int dis, int drill){
+            this.y = y;
+            this.x = x;
+            this.dis = dis;
+            this.drill = drill;
+        }
+    }
+
+    static int n,m,ans;
+    static int[][] map, visit;
+
+    static int[] dy = {-1,1,0,0};
+    static int[] dx = {0,0,-1,1};
+
     public static void main(String[] args) throws IOException{
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String inputStr = br.readLine();
-        StringTokenizer st = new StringTokenizer(inputStr, " ");
+        String[] str = br.readLine().split(" ");
 
-        int[] inputInt = new int[2];
-        for(int i=0; i<2; i++) inputInt[i] = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(str[0]);
+        m = Integer.parseInt(str[1]);
 
-        int[][] map = new int[inputInt[0]][inputInt[1]];
-        int[][] mapCheck = new int[inputInt[0]][inputInt[1]];
-        String[] mapSplitD = new String[inputInt[0]];
-        String[] mapSplitR = new String[inputInt[1]];
+        map = new int[n][m];
+        visit = new int[n][m];
 
-        for(int i=0; i<inputInt[0]; i++){
-            mapSplitD[i] = br.readLine();
-            mapSplitR =  mapSplitD[i].split("");
-            for(int j=0; j<inputInt[1]; j++){
-                map[i][j] = Integer.parseInt(mapSplitR[j]);
+        for(int i=0; i<n; i++){
+            str = br.readLine().split("");
+            for(int j=0; j<m; j++){
+                map[i][j] = Integer.parseInt(str[j]);
+                visit[i][j] = Integer.MAX_VALUE;
             }
         }
 
-        int answer = BPS(inputInt[0],inputInt[1],map,mapCheck);
+        ans = Integer.MAX_VALUE;
 
-        bw.write(answer + "\n");
-        bw.flush();
-        bw.close();
-        br.close();
+        bfs(0,0);
+
+        if(ans == Integer.MAX_VALUE) System.out.println(-1);
+        else System.out.println(ans);
     }
 
-    public static int BPS(int endX, int endY, int[][] map ,int[][] mapCheck){
-        int nextX = 0;
-        int nextY = 0;
+    public static void bfs(int y, int x){
+        Queue<Place> q = new LinkedList<>();
 
-        int[][] search = {{0,1},{0,-1},{1,0},{-1,0}};
+        q.add(new Place(y,x,1,0));
+        visit[y][x] = 0;
 
-        mapCheck[nextX][nextY] = 1;
-        Queue<Integer> qX = new LinkedList<Integer>();
-        Queue<Integer> qY = new LinkedList<Integer>();
+        while(!q.isEmpty()){
+            Place p = q.poll();
 
-        qX.add(nextX);
-        qY.add(nextY);
-
-        while(mapCheck[endX][endY] == 0){
-            nextX = qX.poll();
-            nextY = qY.poll();
+            if(p.y == n-1 && p.x == m-1){
+                ans = p.dis;
+                break;
+            }
 
             for(int i=0; i<4; i++){
-                if(search[i][0]+nextX>=0 && search[i][0]+nextX<endX && 
-                         search[i][1]+nextY>=0 && search[i][1]+nextY<endY){
-                    if(mapCheck[search[i][0]+nextX][search[i][1]+nextY] == 0){
-                        if(map[search[i][0]+nextX][search[i][1]+nextY] == 0){
-                            qX.add(search[i][0]+nextX);
-                            qY.add(search[i][1]+nextY);
+                int ny = p.y + dy[i];
+                int nx = p.x + dx[i];
 
-                            mapCheck[search[i][0]+nextX][search[i][1]+nextY] = mapCheck[nextX][nextY] + 1;
-                        }
+                if(ny<0 || nx<0 || ny>=n || nx<=m) continue;
+
+                if(visit[ny][nx] <= p.drill) continue;
+
+                if(map[ny][nx] == 0){
+                    visit[ny][nx] = p.drill;
+                    q.add(new Place(ny,nx,p.dis+1,p.drill));
+                }
+                else{
+                    if(p.drill == 0){
+                        visit[ny][nx] = p.drill + 1;
+                        q.add(new Place(ny,nx,p.dis+1,p.drill+1));
                     }
                 }
             }
         }
-
-        return mapCheck[endX][endY];
     }
 }
 

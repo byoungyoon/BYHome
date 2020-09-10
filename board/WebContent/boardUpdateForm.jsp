@@ -51,17 +51,12 @@
 			
 			<tr>	
 				<th>내용<th>
-				<td><input type="text" name="content" value="<%=content%>"><td>
+				<td><textarea rows="10" cols="50" name="content" id="<%=content%>"></textarea><td>
 			</tr>
 			
 			<tr>	
 				<th>글쓴이<th>
 				<td><input type="text" name="witter" value="<%=witter%>"><td>
-			</tr>
-			
-			<tr>	
-				<th>날짜<th>
-				<td><input type="text" name="day" value="<%=day%>"><td>
 			</tr>
 		</table>
 		<div><button type="submit">수정</button></div>

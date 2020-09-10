@@ -74,8 +74,65 @@
 	<a href="./boardList.jsp">목록</a> &nbsp;
 	<a href="./boardUpdateForm.jsp?no=<%=no%>">수정</a> &nbsp;
 	<a href="./boardDeleteAction.jsp?no=<%=no%>">삭제</a>
+	
+	<!-- commentList -->
+	<% 
+		String sql2 = "SELECT board_no, comment_no, comment_content, comment_writer FROM comment WHERE board_no = ?";
+		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		stmt2.setInt(1, no);
+		ResultSet rs2 = stmt2.executeQuery();
+	%>
+	
+	<h2>댓글 목록</h2>
+	<table border="1">
+	<%
+		while(rs2.next()){
+		%>
+			<tr>
+				<td><%=rs2.getInt("comment_content") %></td>
+				<td><%=rs2.getInt("comment_writer") %></td>
+				<td><a href='./commentDeleteAction.jsp?commentNo=<%=rs2.getInt("comment_no")%>'>
+					삭제
+				</a></td>
+			</tr>
+		<% 
+		}
+	%>
+	</table>
+	<!-- commentInsertForm -->
+	<form method="post" Action="./commentInsertAction.jsp">
+		<table>
+			<tr>
+				<td>
+					<input type="hidden" name="boardNo" value=<%=no %>>
+					<textarea rows="2" cols="50" name = commentContent></textarea>
+					<input type="text" name="commentWriter">
+				</td>
+				<td>
+					<button type="submit">댓글</button>
+				</td>
+			</tr>
+		</table>
+	</form>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

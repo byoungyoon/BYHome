@@ -5,7 +5,7 @@
 	int no = Integer.parseInt(request.getParameter("no"));
 	String title = request.getParameter("title");
 	String content = request.getParameter("content");
-	String day = request.getParameter("day");
+	String witter = request.getParameter("witter");
 	
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection(
@@ -18,10 +18,10 @@
 	
 	stmt.setString(1, title);
 	stmt.setString(2, content);
-	stmt.setString(3, day);
+	stmt.setString(3, witter);
 	stmt.setInt(4, no);
 	
 	stmt.executeUpdate();
 	
-	response.sendRedirect("./boardList.jsp");
+	response.sendRedirect("./boardList.jsp?no=" +no);
 %>
