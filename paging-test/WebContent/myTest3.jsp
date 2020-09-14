@@ -222,7 +222,7 @@
 				}
 				else{
 				%>
-					화사 여부<input type="checkbox" name="search" value="no" checked="checked">
+					화사 여부<input type="checkbox" name="search" value="no">
 				<%
 				}
 			%>
