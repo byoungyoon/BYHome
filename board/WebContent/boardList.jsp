@@ -21,14 +21,39 @@
 	<br>
 	
 	<%
+		request.getParameter("UTF-8");
+		
 		Class.forName("org.mariadb.jdbc.Driver");
 		Connection conn = DriverManager.getConnection(
 							"jdbc:mariadb://127.0.0.1:3306/boarddb",
 							"root",
 							"java1004");
 		
-		String sql = "SELECT no, title, witter FROM board ORDER BY no DESC LIMIT 0, 10";
+		String sql = "SELECT * FROM board LIMIT ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		String sql2 = "SELECT COUNT(*) as cot FROM board";
+		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		
+		ResultSet rs2 = stmt2.executeQuery();
+		
+		int startPage = 1;
+		int endPage = Integer.MAX_VALUE;
+		int limitPage = 10;
+		
+		if(rs2.next()){
+			endPage = rs2.getInt("cot") / limitPage;
+			if(endPage % limitPage != 0) endPage += 1;
+		}
+		
+		if(request.getParameter("startPage") != null){
+			startPage = Integer.parseInt(request.getParameter("startPage"));
+			if(startPage == 0) startPage++;
+			if(startPage == endPage+1) startPage--;
+		}
+		
+		
+		stmt.setInt(1, (startPage-1)*limitPage);
+		stmt.setInt(2, limitPage);
 		
 		ResultSet rs = stmt.executeQuery();
 	%>
@@ -58,6 +83,24 @@
 		%>
 		</tbody>
 	</table>
+	<div>
+		<%
+			if(startPage != 1){
+			%>
+				<a href="boardList.jsp?startPage=<%=1%>">처음</a> &nbsp;&nbsp;
+			<% 
+			}
+		%>
+		<a href="boardList.jsp?startPage=<%=startPage-1%>">이전</a> &nbsp;&nbsp;
+		<a href="boardList.jsp?startPage=<%=startPage+1%>">다음</a> &nbsp;&nbsp;
+		<%
+			if(startPage != endPage){
+			%>
+				<a href="boardList.jsp?startPage=<%=endPage%>">마지막</a> &nbsp;&nbsp;
+			<% 
+			}
+		%>
+	</div> 
 </body>
 </html>
 
